@@ -1,0 +1,854 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ldoc</h1>
+
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><strong>party</strong></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>party</code></h1>
+<p>A module for GPU accelerated particles.</p>
+<p></p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#draw">draw (...)</a></td>
+	<td class="summary">Draws a system.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#update">update (dt)</a></td>
+	<td class="summary">Updates a system.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setOrigin">setOrigin (xOrigin, yOrigin)</a></td>
+	<td class="summary">Sets the origin of the system.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setStartColor">setStartColor (r, g, b[, a])</a></td>
+	<td class="summary">Sets the starting color of the system.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setEndColor">setEndColor (r, g, b[, a])</a></td>
+	<td class="summary">Sets the ending color of the system.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setAreaSpread">setAreaSpread (width, height)</a></td>
+	<td class="summary">Sets the spawning area.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setDirection">setDirection (direction)</a></td>
+	<td class="summary">Sets the spawn direction.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setSpread">setSpread (spread)</a></td>
+	<td class="summary">Sets the spawn direction spread</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setMinLinearAcceleration">setMinLinearAcceleration (x, y)</a></td>
+	<td class="summary">Sets the minimum linear acceleration.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setMaxLinearAcceleration">setMaxLinearAcceleration (x, y)</a></td>
+	<td class="summary">Sets the maximum linear acceleration.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setLinearAcceleration">setLinearAcceleration (minx, miny, maxx, maxy)</a></td>
+	<td class="summary">Sets the minimum and maximum linear acceleration.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setMinStartAngle">setMinStartAngle (angle)</a></td>
+	<td class="summary">Sets minimum spawn angle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setMaxStartAngle">setMaxStartAngle (angle)</a></td>
+	<td class="summary">Sets maximum spawn angle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setStartAngle">setStartAngle (minAngle, maxAngle)</a></td>
+	<td class="summary">Sets minimum spawn angle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setMinRotationSpeed">setMinRotationSpeed (speed)</a></td>
+	<td class="summary">Sets the minimum constant rotation speed.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setMaxRotationSpeed">setMaxRotationSpeed (speed)</a></td>
+	<td class="summary">Sets the maximum constant rotation speed.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setRotationSpeed">setRotationSpeed (minspeed, maxspeed)</a></td>
+	<td class="summary">Sets the minimum and maximum constant rotation speed.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setMinLifetime">setMinLifetime (lifetime)</a></td>
+	<td class="summary">Sets the minimum lifetime of the particles.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setMaxLifetime">setMaxLifetime (lifetime)</a></td>
+	<td class="summary">Sets the maximum lifetime of the particles.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setLifetime">setLifetime (minlifetime, maxlifetime)</a></td>
+	<td class="summary">Sets the minimum and maximum lifetime of the particles.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setMinRadius">setMinRadius (radius)</a></td>
+	<td class="summary">Sets the minimum radius of the particles.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setMaxRadius">setMaxRadius (radius)</a></td>
+	<td class="summary">Sets the maximum radius of the particles.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setRadius">setRadius (minradius, maxradius)</a></td>
+	<td class="summary">Sets the minimum and maximum radius of the particles.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setTime">setTime (time)</a></td>
+	<td class="summary">Sets the time used for vertex calculations.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "draw"></a>
+    <strong>draw (...)</strong>
+    </dt>
+    <dd>
+    Draws a system.
+ Can take any parameters that love.draw would normally.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">...</span>
+         any draw parameters
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "update"></a>
+    <strong>update (dt)</strong>
+    </dt>
+    <dd>
+    Updates a system.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">dt</span>
+            <span class="types"><span class="type">number</span></span>
+         time since last update
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setOrigin"></a>
+    <strong>setOrigin (xOrigin, yOrigin)</strong>
+    </dt>
+    <dd>
+    Sets the origin of the system.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">xOrigin</span>
+            <span class="types"><span class="type">number</span></span>
+         X origin of system
+        </li>
+        <li><span class="parameter">yOrigin</span>
+            <span class="types"><span class="type">number</span></span>
+         Y origin of system
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        system edited system
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setStartColor"></a>
+    <strong>setStartColor (r, g, b[, a])</strong>
+    </dt>
+    <dd>
+    Sets the starting color of the system.
+ Color is linearly interpolated between the start and end color over it's lifetime.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">r</span>
+            <span class="types"><span class="type">number</span></span>
+         red color component
+        </li>
+        <li><span class="parameter">g</span>
+            <span class="types"><span class="type">number</span></span>
+         green color component
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         blue color component
+        </li>
+        <li><span class="parameter">a</span>
+            <span class="types"><span class="type">number</span></span>
+         alpha color component
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        system edited system
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setEndColor"></a>
+    <strong>setEndColor (r, g, b[, a])</strong>
+    </dt>
+    <dd>
+    Sets the ending color of the system.
+ Color is linearly interpolated between the start and end color over it's lifetime.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">r</span>
+            <span class="types"><span class="type">number</span></span>
+         red color component
+        </li>
+        <li><span class="parameter">g</span>
+            <span class="types"><span class="type">number</span></span>
+         green color component
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         blue color component
+        </li>
+        <li><span class="parameter">a</span>
+            <span class="types"><span class="type">number</span></span>
+         alpha color component
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        system edited system
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setAreaSpread"></a>
+    <strong>setAreaSpread (width, height)</strong>
+    </dt>
+    <dd>
+    Sets the spawning area.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">width</span>
+            <span class="types"><span class="type">number</span></span>
+         width of spawn area
+        </li>
+        <li><span class="parameter">height</span>
+            <span class="types"><span class="type">number</span></span>
+         height of spawn area
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        system edited system
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setDirection"></a>
+    <strong>setDirection (direction)</strong>
+    </dt>
+    <dd>
+    Sets the spawn direction.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">direction</span>
+            <span class="types"><span class="type">number</span></span>
+         spawn direction (radians)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        system edited system
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setSpread"></a>
+    <strong>setSpread (spread)</strong>
+    </dt>
+    <dd>
+    Sets the spawn direction spread
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">spread</span>
+            <span class="types"><span class="type">number</span></span>
+         direction spread (radians)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        system edited system
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setMinLinearAcceleration"></a>
+    <strong>setMinLinearAcceleration (x, y)</strong>
+    </dt>
+    <dd>
+    Sets the minimum linear acceleration.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+            <span class="types"><span class="type">number</span></span>
+         linear acceleration on the x axis
+        </li>
+        <li><span class="parameter">y</span>
+            <span class="types"><span class="type">number</span></span>
+         linear acceleration on the y axis
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        system edited system
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setMaxLinearAcceleration"></a>
+    <strong>setMaxLinearAcceleration (x, y)</strong>
+    </dt>
+    <dd>
+    Sets the maximum linear acceleration.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+            <span class="types"><span class="type">number</span></span>
+         linear acceleration on the x axis
+        </li>
+        <li><span class="parameter">y</span>
+            <span class="types"><span class="type">number</span></span>
+         linear acceleration on the y axis
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        system edited system
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setLinearAcceleration"></a>
+    <strong>setLinearAcceleration (minx, miny, maxx, maxy)</strong>
+    </dt>
+    <dd>
+    Sets the minimum and maximum linear acceleration.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">minx</span>
+            <span class="types"><span class="type">number</span></span>
+         minimum linear acceleration on the x axis
+        </li>
+        <li><span class="parameter">miny</span>
+            <span class="types"><span class="type">number</span></span>
+         minimum linear acceleration on the y axis
+        </li>
+        <li><span class="parameter">maxx</span>
+            <span class="types"><span class="type">number</span></span>
+         maximum linear acceleration on the x axis
+        </li>
+        <li><span class="parameter">maxy</span>
+            <span class="types"><span class="type">number</span></span>
+         maximum linear acceleration on the y axis
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        system edited system
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setMinStartAngle"></a>
+    <strong>setMinStartAngle (angle)</strong>
+    </dt>
+    <dd>
+    Sets minimum spawn angle.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">angle</span>
+            <span class="types"><span class="type">number</span></span>
+         minimum starting angle
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        system edited system
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setMaxStartAngle"></a>
+    <strong>setMaxStartAngle (angle)</strong>
+    </dt>
+    <dd>
+    Sets maximum spawn angle.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">angle</span>
+            <span class="types"><span class="type">number</span></span>
+         maximum starting angle
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        system edited system
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setStartAngle"></a>
+    <strong>setStartAngle (minAngle, maxAngle)</strong>
+    </dt>
+    <dd>
+    Sets minimum spawn angle.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">minAngle</span>
+            <span class="types"><span class="type">number</span></span>
+         minimum starting angle
+        </li>
+        <li><span class="parameter">maxAngle</span>
+            <span class="types"><span class="type">number</span></span>
+         maximum starting angle
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        system edited system
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setMinRotationSpeed"></a>
+    <strong>setMinRotationSpeed (speed)</strong>
+    </dt>
+    <dd>
+    Sets the minimum constant rotation speed.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">speed</span>
+            <span class="types"><span class="type">number</span></span>
+         minimum rotation speed
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        system edited system
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setMaxRotationSpeed"></a>
+    <strong>setMaxRotationSpeed (speed)</strong>
+    </dt>
+    <dd>
+    Sets the maximum constant rotation speed.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">speed</span>
+            <span class="types"><span class="type">number</span></span>
+         maximum rotation speed
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        system edited system
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setRotationSpeed"></a>
+    <strong>setRotationSpeed (minspeed, maxspeed)</strong>
+    </dt>
+    <dd>
+    Sets the minimum and maximum constant rotation speed.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">minspeed</span>
+            <span class="types"><span class="type">number</span></span>
+         minimum rotation speed
+        </li>
+        <li><span class="parameter">maxspeed</span>
+            <span class="types"><span class="type">number</span></span>
+         maximum rotation speed
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        system edited system
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setMinLifetime"></a>
+    <strong>setMinLifetime (lifetime)</strong>
+    </dt>
+    <dd>
+    Sets the minimum lifetime of the particles.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">lifetime</span>
+            <span class="types"><span class="type">number</span></span>
+         minimum lifetime
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        system edited system
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setMaxLifetime"></a>
+    <strong>setMaxLifetime (lifetime)</strong>
+    </dt>
+    <dd>
+    Sets the maximum lifetime of the particles.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">lifetime</span>
+            <span class="types"><span class="type">number</span></span>
+         maximum lifetime
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        system edited system
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setLifetime"></a>
+    <strong>setLifetime (minlifetime, maxlifetime)</strong>
+    </dt>
+    <dd>
+    Sets the minimum and maximum lifetime of the particles.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">minlifetime</span>
+            <span class="types"><span class="type">number</span></span>
+         minimum lifetime
+        </li>
+        <li><span class="parameter">maxlifetime</span>
+            <span class="types"><span class="type">number</span></span>
+         maximum lifetime
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        system edited system
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setMinRadius"></a>
+    <strong>setMinRadius (radius)</strong>
+    </dt>
+    <dd>
+    Sets the minimum radius of the particles.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">radius</span>
+            <span class="types"><span class="type">number</span></span>
+         minimum radius
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        system edited system
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setMaxRadius"></a>
+    <strong>setMaxRadius (radius)</strong>
+    </dt>
+    <dd>
+    Sets the maximum radius of the particles.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">radius</span>
+            <span class="types"><span class="type">number</span></span>
+         minimum radius
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        system edited system
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setRadius"></a>
+    <strong>setRadius (minradius, maxradius)</strong>
+    </dt>
+    <dd>
+    Sets the minimum and maximum radius of the particles.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">minradius</span>
+            <span class="types"><span class="type">number</span></span>
+         minimum radius
+        </li>
+        <li><span class="parameter">maxradius</span>
+            <span class="types"><span class="type">number</span></span>
+         maximum radius
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        system edited system
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setTime"></a>
+    <strong>setTime (time)</strong>
+    </dt>
+    <dd>
+    Sets the time used for vertex calculations.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">time</span>
+            <span class="types"><span class="type">number</span></span>
+         time
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        system edited system
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2017-12-18 13:53:48 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
