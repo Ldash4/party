@@ -52,5 +52,5 @@ This will spawn a nice waterfall with 750 particles.
 Documentation
 -------------
 
-Documentation can be found here (no link yet, placeholder)
+Documentation can be found [here](https://ldash4.github.io/party/)
 
