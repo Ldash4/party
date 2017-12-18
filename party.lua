@@ -247,8 +247,8 @@ end
 --- Sets the minimum and maximum linear acceleration.
 -- @tparam number minx minimum linear acceleration on the x axis
 -- @tparam number miny minimum linear acceleration on the y axis
--- @tparam number maxx maximum linear acceleration on the x axis
--- @tparam number maxy maximum linear acceleration on the y axis
+-- @tparam[opt] number maxx maximum linear acceleration on the x axis
+-- @tparam[opt] number maxy maximum linear acceleration on the y axis
 -- @return system edited system
 function party:setLinearAcceleration(minx, miny, maxx, maxy)
   maxx, maxy = maxx or minx, maxy or miny
@@ -281,7 +281,7 @@ end
 
 --- Sets minimum spawn angle.
 -- @tparam number minAngle minimum starting angle
--- @tparam number maxAngle maximum starting angle
+-- @tparam[opt] number maxAngle maximum starting angle
 -- @return system edited system
 function party:setStartAngle(minAngle, maxAngle)
   maxAngle = maxAngle or minAngle
@@ -312,7 +312,7 @@ end
 
 --- Sets the minimum and maximum constant rotation speed.
 -- @tparam number minspeed minimum rotation speed
--- @tparam number maxspeed maximum rotation speed
+-- @tparam[opt] number maxspeed maximum rotation speed
 -- @return system edited system
 function party:setRotationSpeed(minspeed, maxspeed)
   maxspeed = maxspeed or minspeed
@@ -343,7 +343,7 @@ end
 
 --- Sets the minimum and maximum lifetime of the particles.
 -- @tparam number minlifetime minimum lifetime
--- @tparam number maxlifetime maximum lifetime
+-- @tparam[opt] number maxlifetime maximum lifetime
 -- @return system edited system
 function party:setLifetime(minlifetime, maxlifetime)
   maxlifetime = maxlifetime or minlifetime
@@ -374,7 +374,7 @@ end
 
 --- Sets the minimum and maximum radius of the particles.
 -- @tparam number minradius minimum radius
--- @tparam number maxradius maximum radius
+-- @tparam[opt] number maxradius maximum radius
 -- @return system edited system
 function party:setRadius(minradius, maxradius)
   maxradius = maxradius or minradius
