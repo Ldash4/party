@@ -6,14 +6,6 @@ local shaderstring = [[
 
 uniform float time;
 
-uniform vec2 origin = vec2(0);
-uniform int radius = 0;
-uniform vec4 startColor = vec4(1.0f);
-uniform vec4 endColor = vec4(1.0f);
-uniform vec2 areaSpread = vec2(0.0f);
-uniform float direction = 0.0f;
-uniform float spread = 0.0f;
-
 //Movement etc
   //Position
 uniform vec2 minLinearAcceleration = vec2(0.0f);
@@ -36,6 +28,14 @@ uniform float maxLifetime = 1.0f;
 
 uniform float minRadius = 5.0f;
 uniform float maxRadius = 5.0f;
+
+uniform vec2 origin = vec2(0);
+uniform int radius = 0;
+uniform vec4 startColor = vec4(1.0f);
+uniform vec4 endColor = vec4(1.0f);
+uniform vec2 areaSpread = vec2(0.0f);
+uniform float direction = 0.0f;
+uniform float spread = 0.0f;
 
 //Pass the color to the fragment shader
 varying vec4 vertexColor;
