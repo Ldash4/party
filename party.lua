@@ -109,7 +109,7 @@ vec4 position(mat4 transform, vec4 position)
 
 #ifdef PIXEL
 
-in vec4 vertexColor;
+varying vec4 vertexColor;
 
 vec4 effect(vec4 col, sampler2D tex, vec2 tc, vec2 sc)
 {
