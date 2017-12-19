@@ -1,4 +1,4 @@
-party.lua (love2d 0.11)
+party.lua (love2d 0.9.0+, tested with 0.10.2 - 0.11.0)
 =========
 
 Disclaimer
