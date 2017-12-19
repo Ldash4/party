@@ -29,6 +29,7 @@ uniform float maxLifetime = 1.0f;
 uniform float minRadius = 5.0f;
 uniform float maxRadius = 5.0f;
 
+uniform float particleCount = 0;
 uniform vec2 origin = vec2(0);
 uniform int radius = 0;
 uniform vec4 startColor = vec4(1.0f);
@@ -65,7 +66,7 @@ vec4 position(mat4 transform, vec4 position)
   int particleIndex = vertexID / 3;
   float triangleIndex = mod(vertexID, 3);
 
-  float particleSeed = rand(particleIndex);
+  float particleSeed = rand(particleIndex / particleCount);
 
   float lifetime = randrange(minLifetime, maxLifetime, particleSeed+56.0f);
 
@@ -133,6 +134,8 @@ local party = setmetatable({}, {
 
     self.shader = love.graphics.newShader(shaderstring)
     self.time = 0
+
+    self.shader:send("particleCount", bufferSize)
 
     return self
   end
