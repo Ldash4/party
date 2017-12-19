@@ -293,9 +293,10 @@ end
 
 --- Sets minimum and maximum linear damping
 -- @tparam number mindamping minimum linear damping
--- @tparam number maxdamping maximum linear damping
+-- @tparam[opt] number maxdamping maximum linear damping
 -- @return system edited system
 function party:setLinearDamping(mindamping, maxdamping)
+	maxdamping = maxdamping or mindamping
   assertIsNumber(mindamping, "min damping")
   assertIsNumber(maxdamping, "max damping")
   self.shader:send("minLinearDamping", mindamping)
