@@ -114,7 +114,7 @@ varying vec4 vertexColor;
 
 vec4 effect(vec4 col, sampler2D tex, vec2 tc, vec2 sc)
 {
-  return vertexColor * col;
+  return Texel(tex, tc) * vertexColor * col;
 }
 
 #endif
@@ -127,11 +127,15 @@ local party = setmetatable({}, {
     local buffer = {}
 
     for i = 1, bufferSize * 3 do
-      buffer[i] = {i-1, 0}
+      buffer[i] = {i-1, 0, 0, 0}
+      if i % 3 == 0 then buffer[i][3] = 0.5 buffer[i][4] = 0.0439059655300 end
+      if i % 3 == 1 then buffer[i][3] = 0   buffer[i][4] = 0.9560940344573 end
+      if i % 3 == 2 then buffer[i][3] = 1   buffer[i][4] = 0.9560940344573 end
     end
 
     self.mesh = love.graphics.newMesh({
-      {"VertexPosition", "float", 2}
+      {"VertexPosition", "float", 2},
+      {"VertexTexCoord", "float", 2}
     }, buffer, "triangles", "static")
 
     self.shader = love.graphics.newShader(shaderstring)
@@ -162,6 +166,14 @@ end
 -- @tparam number dt time since last update
 function party:update(dt)
   self.time = self.time + dt
+end
+
+--- Attaches texture to system, or removes texture if nil.
+-- @tparam image/canvas texture texture
+-- @return system edited system
+function party:texture(texture)
+	self.mesh:setTexture(texture)
+	return self
 end
 
 --- Sets the origin of the system.
