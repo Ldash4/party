@@ -210,6 +210,7 @@ end
 -- @tparam number height height of spawn area
 -- @return system edited system
 function party:setAreaSpread(width, height)
+	height = height or width
   assertIsNumber(width, "spawn width")
   assertIsNumber(height, "spawn height")
   self.shader:send("areaSpread", {width / 2, height / 2})
