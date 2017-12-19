@@ -21,8 +21,8 @@ uniform float spread = 0.0f;
 uniform vec2 minLinearAcceleration = vec2(0.0f);
 uniform vec2 maxLinearAcceleration = vec2(0.0f);
 
-uniform float minSpeed = 100.0f;
-uniform float maxSpeed = 100.0f;
+uniform float minSpeed = 0.0f;
+uniform float maxSpeed = 0.0f;
   //Angle
 uniform float minStartAngle = 0.0f;
 uniform float maxStartAngle = 0.0f;
@@ -31,10 +31,10 @@ uniform float minRotationSpeed = 0.0f;
 uniform float maxRotationSpeed = 0.0f;
   //Other
 uniform float minLifetime = 1.0f;
-uniform float maxLifetime = 3.0f;
+uniform float maxLifetime = 1.0f;
 
-uniform float minRadius = 0.0f;
-uniform float maxRadius = 0.0f;
+uniform float minRadius = 5.0f;
+uniform float maxRadius = 5.0f;
 
 //Pass the color to the fragment shader
 out vec4 vertexColor;
