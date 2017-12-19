@@ -292,9 +292,10 @@ function party:setMaxLinearDamping(damping)
 end
 
 --- Sets minimum and maximum linear damping
--- @tparam number damping minimum linear damping
+-- @tparam number mindamping minimum linear damping
+-- @tparam number maxdamping maximum linear damping
 -- @return system edited system
-function party:setMinLinearDamping(mindamping, maxdamping)
+function party:setLinearDamping(mindamping, maxdamping)
   assertIsNumber(mindamping, "min damping")
   assertIsNumber(maxdamping, "max damping")
   self.shader:send("minLinearDamping", mindamping)
