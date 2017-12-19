@@ -57,9 +57,6 @@ Documentation can be found [here](https://ldash4.github.io/party/)
 Potential future features
 -------------------------
 
-* Linear damping
 * Linear interpolation between more than two colors
 * Simple texturing
-* 0.10.2 support
-* Multiple different systems within a single party object
 * Getters/attributes for particle system data (such as :getRadius() or system.radius)
