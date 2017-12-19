@@ -122,6 +122,8 @@ vec4 effect(vec4 col, sampler2D tex, vec2 tc, vec2 sc)
 
 local party = setmetatable({}, {
   __call = function(self, bufferSize)
+  	assert(type(bufferSize) == "number", "Buffer size must be number")
+  	assert(bufferSize > 0, "Buffer size must be above zero")
     local buffer = {}
 
     for i = 1, bufferSize * 3 do
