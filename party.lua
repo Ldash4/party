@@ -151,7 +151,7 @@ end
 -- @param ... any draw parameters
 function party:draw(...)
   love.graphics.setShader(self.shader)
-  self.shader:send("time", love.timer.getTime())
+  self.shader:send("time", self.time)
   love.graphics.draw(self.mesh, ...)
   love.graphics.setShader()
 end
@@ -160,17 +160,21 @@ end
 -- @tparam number dt time since last update
 function party:update(dt)
   self.time = self.time + dt
-  self.shader:send("time", self.time)
 end
 
 --- Sets the origin of the system.
 -- @tparam number xOrigin X origin of system
 -- @tparam number yOrigin Y origin of system
 -- @return system edited system
-function party:setOrigin(xOrigin, yOrigin)
+function party:origin(xOrigin, yOrigin)
+	xOrigin = xOrigin or self.xOrigin
+	yOrigin = yOrigin or self.yOrigin
   assertIsNumber(xOrigin, "x origin")
   assertIsNumber(yOrigin, "y origin")
-  self.shader:send("origin", {xOrigin, yOrigin})
+  if xOrigin ~= self.xOrigin or yOrigin ~= self.yOrigin then
+  	self.shader:send("origin", {xOrigin, yOrigin})
+  	self.xOrigin, self.yOrigin = xOrigin, yOrigin
+  end
   return self
 end
 
@@ -181,13 +185,16 @@ end
 -- @tparam number b blue color component
 -- @tparam[opt] number a alpha color component
 -- @return system edited system
-function party:setStartColor(r, g, b, a)
-  a = a or 1
+function party:startColor(r, g, b, a)
+	a = a or 1
   assertIsNumber(r, "red")
   assertIsNumber(g, "green")
   assertIsNumber(b, "blue")
   assertIsNumber(a, "alpha")
-  self.shader:send("startColor", {r, g, b, a})
+  if r ~= self.sr or g ~= self.sg or b ~= self.sb or a ~= self.sa then
+  	self.shader:send("startColor", {r, g, b, a})
+  	self.sr, self.sg, self.sb, self.sa = r, g, b, a
+  end
   return self
 end
 
@@ -198,268 +205,197 @@ end
 -- @tparam number b blue color component
 -- @tparam[opt] number a alpha color component
 -- @return system edited system
-function party:setEndColor(r, g, b, a)
+function party:endColor(r, g, b, a)
   a = a or 1
   assertIsNumber(r, "red")
   assertIsNumber(g, "green")
   assertIsNumber(b, "blue")
   assertIsNumber(a, "alpha")
-  self.shader:send("endColor", {r, g, b, a})
+  if r ~= self.er or g ~= self.eg or b ~= self.eb or a ~= self.ea then
+  	self.shader:send("endColor", {r, g, b, a})
+  	self.er, self.eg, self.eb, self.ea = r, g, b, a
+  end
   return self
 end
 
 --- Sets the spawning area.
--- @tparam number width width of spawn area
--- @tparam number height height of spawn area
+-- @tparam number spawnWidth width of spawn area
+-- @tparam[opt] number spawnHeight height of spawn area
 -- @return system edited system
-function party:setAreaSpread(width, height)
-	height = height or width
-  assertIsNumber(width, "spawn width")
-  assertIsNumber(height, "spawn height")
-  self.shader:send("areaSpread", {width / 2, height / 2})
+function party:areaSpread(spawnWidth, spawnHeight)
+	spawnHeight = spawnHeight or spawnWidth
+  assertIsNumber(spawnWidth, "spawn width")
+  assertIsNumber(spawnHeight, "spawn height")
+  if spawnWidth ~= self.spawnWidth or spawnHeight ~= self.spawnHeight then
+  	self.shader:send("areaSpread", {spawnWidth / 2, spawnHeight / 2})
+  	self.spawnWidth, self.spawnHeight = spawnWidth, spawnHeight
+  end
   return self
 end
 
 --- Sets the spawn direction.
 -- @tparam number direction spawn direction (radians)
 -- @return system edited system
-function party:setDirection(direction)
+function party:direction(direction)
   assertIsNumber(direction, "direction")
-  self.shader:send("direction", direction)
+  if direction ~= self.direction then
+	  self.shader:send("direction", direction)
+	  self.direction = direction
+	end
   return self
 end
 
 --- Sets the spawn direction spread
 -- @tparam number spread direction spread (radians)
 -- @return system edited system
-function party:setSpread(spread)
+function party:spread(spread)
   assertIsNumber(spread, "spread")
-  self.shader:send("spread", spread)
-  return self
-end
-
---- Sets the minimum linear acceleration.
--- @tparam number x linear acceleration on the x axis
--- @tparam number y linear acceleration on the y axis
--- @return system edited system
-function party:setMinLinearAcceleration(x, y)
-  assertIsNumber(x, "x")
-  assertIsNumber(y, "y")
-  self.shader:send("minLinearAcceleration", {x, y})
-  return self
-end
-
---- Sets the maximum linear acceleration.
--- @tparam number x linear acceleration on the x axis
--- @tparam number y linear acceleration on the y axis
--- @return system edited system
-function party:setMaxLinearAcceleration(x, y)
-  assertIsNumber(x, "x")
-  assertIsNumber(y, "y")
-  self.shader:send("maxLinearAcceleration", {x, y})
+  if spread ~= self.spread then
+  	self.shader:send("spread", spread)
+  	self.spread = spread
+  end
   return self
 end
 
 --- Sets the minimum and maximum linear acceleration.
--- @tparam number minx minimum linear acceleration on the x axis
--- @tparam number miny minimum linear acceleration on the y axis
--- @tparam[opt] number maxx maximum linear acceleration on the x axis
--- @tparam[opt] number maxy maximum linear acceleration on the y axis
+-- @tparam number minXLinAcc minimum linear acceleration on the x axis
+-- @tparam number minYLinAcc minimum linear acceleration on the y axis
+-- @tparam[opt] number maxXLinAcc maximum linear acceleration on the x axis
+-- @tparam[opt] number maxYLinAcc maximum linear acceleration on the y axis
 -- @return system edited system
-function party:setLinearAcceleration(minx, miny, maxx, maxy)
-  maxx, maxy = maxx or minx, maxy or miny
-  assertIsNumber(minx, "min x")
-  assertIsNumber(miny, "min y")
-  assertIsNumber(maxx, "max x")
-  assertIsNumber(maxy, "max y")
-  self.shader:send("minLinearAcceleration", {minx, miny})
-  self.shader:send("maxLinearAcceleration", {maxx, maxy})
-  return self
-end
-
---- Sets minimum linear damping
--- @tparam number damping minimum linear damping
--- @return system edited system
-function party:setMinLinearDamping(damping)
-  assertIsNumber(damping, "damping")
-  self.shader:send("minLinearDamping", damping)
-  return self
-end
-
---- Sets maximum linear damping
--- @tparam number damping maximum linear damping
--- @return system edited system
-function party:setMaxLinearDamping(damping)
-  assertIsNumber(damping, "damping")
-  self.shader:send("maxLinearDamping", damping)
+function party:linearAcceleration(minXLinAcc, minYLinAcc, maxXLinAcc, maxYLinAcc)
+  maxXLinAcc = maxXLinAcc or minXLinAcc
+  maxYLinAcc = maxYLinAcc or minYLinAcc
+  assertIsNumber(minXLinAcc, "minimum x linear acceleration")
+  assertIsNumber(minYLinAcc, "minimum y linear acceleration")
+  assertIsNumber(maxXLinAcc, "maximum x linear acceleration")
+  assertIsNumber(maxYLinAcc, "maximum y linear acceleration")
+  if minXLinAcc ~= self.minXLinAcc or
+  		minYLinAcc ~= self.minYLinAcc then
+  	self.shader:send("minLinearAcceleration", {minXLinAcc, minYLinAcc})
+  	self.minXLinAcc = minXLinAcc
+  	self.minYLinAcc = minYLinAcc
+  end
+  if maxXLinAcc ~= self.maxXLinAcc or
+  		maxYLinAcc ~= self.maxYLinAcc then
+  	self.shader:send("maxLinearAcceleration", {maxXLinAcc, maxYLinAcc})
+  	self.maxXLinAcc = maxXLinAcc
+  	self.maxYLinAcc = maxYLinAcc
+  end
   return self
 end
 
 --- Sets minimum and maximum linear damping
--- @tparam number mindamping minimum linear damping
--- @tparam[opt] number maxdamping maximum linear damping
+-- @tparam number minLinearDamping minimum linear damping
+-- @tparam[opt] number maxLinearDamping maximum linear damping
 -- @return system edited system
-function party:setLinearDamping(mindamping, maxdamping)
-	maxdamping = maxdamping or mindamping
-  assertIsNumber(mindamping, "min damping")
-  assertIsNumber(maxdamping, "max damping")
-  self.shader:send("minLinearDamping", mindamping)
-  self.shader:send("maxLinearDamping", maxdamping)
+function party:linearDamping(minLinearDamping, maxLinearDamping)
+	maxLinearDamping = maxLinearDamping or minLinearDamping
+  assertIsNumber(minLinearDamping, "min damping")
+  assertIsNumber(maxLinearDamping, "max damping")
+  if minLinearDamping ~= self.minLinearDamping then
+  	self.shader:send("minLinearDamping", minLinearDamping)
+  	self.minLinearDamping = minLinearDamping
+  end
+  if maxLinearDamping ~= self.maxLinearDamping then
+  	self.shader:send("maxLinearDamping", maxLinearDamping)
+  	self.maxLinearDamping = maxLinearDamping
+  end
   return self
 end
 
 --- Sets the minimum speed
--- @tparam number speed minimum speed
+-- @tparam number minSpeed minimum speed
+-- @tparam[opt] number maxSpeed maximum speed
 -- @return system edited system
-function party:setMinSpeed(speed)
-	assertIsNumber(speed, "speed")
-	self.shader:send("minSpeed", speed)
+function party:speed(minSpeed, maxSpeed)
+	maxSpeed = maxSpeed or minSpeed
+	assertIsNumber(minSpeed, "minimum speed")
+	assertIsNumber(maxSpeed, "maximum speed")
+	if minSpeed ~= self.minSpeed then
+		self.shader:send("minSpeed", minSpeed)
+		self.minSpeed = minSpeed
+	end
+	if maxSpeed ~= self.maxSpeed then
+		self.shader:send("maxSpeed", maxSpeed)
+		self.maxSpeed = maxSpeed
+	end
 	return self
-end
-
---- Sets the maximum speed
--- @tparam number speed maximum speed
--- @return system edited system
-function party:setMaxSpeed(speed)
-	assertIsNumber(speed, "speed")
-	self.shader:send("maxSpeed", speed)
-	return self
-end
-
---- Sets the minimum speed
--- @tparam number speed minimum speed
--- @tparam[opt] number speed maximum speed
--- @return system edited system
-function party:setSpeed(minspeed, maxspeed)
-	maxspeed = maxspeed or minspeed
-	assertIsNumber(minspeed, "minimum speed")
-	assertIsNumber(maxspeed, "maximum speed")
-	self.shader:send("minSpeed", minspeed)
-	self.shader:send("maxSpeed", maxspeed)
-	return self
-end
-
---- Sets minimum spawn angle.
--- @tparam number angle minimum starting angle
--- @return system edited system
-function party:setMinStartAngle(angle)
-  assertIsNumber(angle, "angle")
-  self.shader:send("minStartAngle", angle)
-  return self
-end
-
---- Sets maximum spawn angle.
--- @tparam number angle maximum starting angle
--- @return system edited system
-function party:setMaxStartAngle(angle)
-  assertIsNumber(angle, "angle")
-  self.shader:send("maxStartAngle", angle)
-  return self
 end
 
 --- Sets minimum spawn angle.
 -- @tparam number minAngle minimum starting angle
 -- @tparam[opt] number maxAngle maximum starting angle
 -- @return system edited system
-function party:setStartAngle(minAngle, maxAngle)
+function party:startAngle(minAngle, maxAngle)
   maxAngle = maxAngle or minAngle
   assertIsNumber(minAngle, "minimum angle")
   assertIsNumber(maxAngle, "maximum angle")
-  self.shader:send("minStartAngle", minAngle)
-  self.shader:send("maxStartAngle", maxAngle)
-  return self
-end
-
---- Sets the minimum constant rotation speed.
--- @tparam number speed minimum rotation speed
--- @return system edited system
-function party:setMinRotationSpeed(speed)
-  assertIsNumber(speed, "speed")
-  self.shader:send("minRotationSpeed", speed)
-  return self
-end
-
---- Sets the maximum constant rotation speed.
--- @tparam number speed maximum rotation speed
--- @return system edited system
-function party:setMaxRotationSpeed(speed)
-  assertIsNumber(speed, "speed")
-  self.shader:send("maxRotationSpeed", speed)
+  if minAngle ~= self.minAngle then
+  	self.shader:send("minStartAngle", minAngle)
+  	self.minAngle = minAngle
+  end
+  if maxAngle ~= self.maxAngle then
+  	self.shader:send("maxStartAngle", maxAngle)
+  	self.maxAngle = maxAngle
+  end
   return self
 end
 
 --- Sets the minimum and maximum constant rotation speed.
--- @tparam number minspeed minimum rotation speed
--- @tparam[opt] number maxspeed maximum rotation speed
+-- @tparam number minSpin minimum rotation speed
+-- @tparam[opt] number maxSpin maximum rotation speed
 -- @return system edited system
-function party:setRotationSpeed(minspeed, maxspeed)
-  maxspeed = maxspeed or minspeed
-  assertIsNumber(minspeed, "minimum speed")
-  assertIsNumber(maxspeed, "maximum speed")
-  self.shader:send("minRotationSpeed", minspeed)
-  self.shader:send("maxRotationSpeed", maxspeed)
-  return self
-end
-
---- Sets the minimum lifetime of the particles.
--- @tparam number lifetime minimum lifetime
--- @return system edited system
-function party:setMinLifetime(lifetime)
-  assertIsNumber(lifetime, "lifetime")
-  self.shader:send("minLifetime", lifetime)
-  return self
-end
-
---- Sets the maximum lifetime of the particles.
--- @tparam number lifetime maximum lifetime
--- @return system edited system
-function party:setMaxLifetime(lifetime)
-  assertIsNumber(lifetime, "lifetime")
-  self.shader:send("maxLifetime", lifetime)
+function party:spin(minSpin, maxSpin)
+  maxSpin = maxSpin or minSpin
+  assertIsNumber(minSpin, "minimum speed")
+  assertIsNumber(maxSpin, "maximum speed")
+  if minSpin ~= self.minSpin then
+	  self.shader:send("minRotationSpeed", minSpin)
+	  self.minSpin = minSpin
+	end
+  if maxSpin ~= self.maxSpin then
+	  self.shader:send("maxRotationSpeed", maxSpin)
+	  self.maxSpin = maxSpin
+	end
   return self
 end
 
 --- Sets the minimum and maximum lifetime of the particles.
--- @tparam number minlifetime minimum lifetime
--- @tparam[opt] number maxlifetime maximum lifetime
+-- @tparam number minLifetime minimum lifetime
+-- @tparam[opt] number maxLifetime maximum lifetime
 -- @return system edited system
-function party:setLifetime(minlifetime, maxlifetime)
-  maxlifetime = maxlifetime or minlifetime
-  assertIsNumber(minlifetime, "minimum lifetime")
-  assertIsNumber(maxlifetime, "maximum lifetime")
-  self.shader:send("minLifetime", minlifetime)
-  self.shader:send("maxLifetime", maxlifetime)
-  return self
-end
-
---- Sets the minimum radius of the particles.
--- @tparam number radius minimum radius
--- @return system edited system
-function party:setMinRadius(radius)
-  assertIsNumber(radius, "radius")
-  self.shader:send("minRadius", radius)
-  return self
-end
-
---- Sets the maximum radius of the particles.
--- @tparam number radius minimum radius
--- @return system edited system
-function party:setMaxRadius(radius)
-  assertIsNumber(radius, "radius")
-  self.shader:send("maxRadius", radius)
+function party:lifetime(minLifetime, maxLifetime)
+  maxLifetime = maxLifetime or minLifetime
+  assertIsNumber(minLifetime, "minimum lifetime")
+  assertIsNumber(maxLifetime, "maximum lifetime")
+  if minLifetime ~= self.minLifetime then
+  	self.shader:send("minLifetime", minLifetime)
+  	self.minLifetime = minLifetime
+  end
+  if maxLifetime ~= self.maxLifetime then
+  	self.shader:send("maxLifetime", maxLifetime)
+  	self.maxLifetime = maxLifetime
+  end
   return self
 end
 
 --- Sets the minimum and maximum radius of the particles.
--- @tparam number minradius minimum radius
--- @tparam[opt] number maxradius maximum radius
+-- @tparam number minRadius minimum radius
+-- @tparam[opt] number maxRadius maximum radius
 -- @return system edited system
-function party:setRadius(minradius, maxradius)
-  maxradius = maxradius or minradius
-  assertIsNumber(minradius, "minimum radius")
-  assertIsNumber(maxradius, "maximum radius")
-  self.shader:send("minRadius", minradius)
-  self.shader:send("maxRadius", maxradius)
+function party:radius(minRadius, maxRadius)
+  maxRadius = maxRadius or minRadius
+  assertIsNumber(minRadius, "minimum radius")
+  assertIsNumber(maxRadius, "maximum radius")
+  if minRadius ~= self.minRadius then
+	  self.shader:send("minRadius", minRadius)
+	  self.minRadius = minRadius
+	end
+  if maxRadius ~= self.maxRadius then
+	  self.shader:send("maxRadius", maxRadius)
+	  self.maxRadius = maxRadius
+	end
   return self
 end
 
