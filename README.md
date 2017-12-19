@@ -58,5 +58,3 @@ Potential future features
 -------------------------
 
 * Linear interpolation between more than two colors
-* Simple texturing
-* Getters/attributes for particle system data (such as :getRadius() or system.radius)
