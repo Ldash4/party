@@ -327,6 +327,7 @@ end
 -- @tparam[opt] number speed maximum speed
 -- @return system edited system
 function party:setSpeed(minspeed, maxspeed)
+	maxspeed = maxspeed or minspeed
 	assertIsNumber(minspeed, "minimum speed")
 	assertIsNumber(maxspeed, "maximum speed")
 	self.shader:send("minSpeed", minspeed)
