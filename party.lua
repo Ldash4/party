@@ -2,8 +2,6 @@
 -- @module party
 
 local shaderstring = [[
-#pragma language glsl3
-
 #ifdef VERTEX
 
 uniform float time;
@@ -21,6 +19,9 @@ uniform float spread = 0.0f;
 uniform vec2 minLinearAcceleration = vec2(0.0f);
 uniform vec2 maxLinearAcceleration = vec2(0.0f);
 
+uniform float minLinearDamping = 0.0f;
+uniform float maxLinearDamping = 0.0f;
+
 uniform float minSpeed = 0.0f;
 uniform float maxSpeed = 0.0f;
   //Angle
@@ -37,7 +38,7 @@ uniform float minRadius = 5.0f;
 uniform float maxRadius = 5.0f;
 
 //Pass the color to the fragment shader
-out vec4 vertexColor;
+varying vec4 vertexColor;
 
 //Helper vars and functions
 const float deg120 = 2.0943951024;
@@ -59,8 +60,10 @@ vec2 randrange(vec2 min, vec2 max, float n)
 
 vec4 position(mat4 transform, vec4 position)
 {
-  int particleIndex = gl_VertexID / 3;
-  float triangleIndex = mod(gl_VertexID, 3);
+
+  int vertexID = int(position.x);
+  int particleIndex = vertexID / 3;
+  float triangleIndex = mod(vertexID, 3);
 
   float particleSeed = rand(particleIndex);
 
@@ -71,12 +74,21 @@ vec4 position(mat4 transform, vec4 position)
 
   float initialDirection = direction + randrange(0, spread, particleSeed-45);
   float initialSpeed = randrange(minSpeed, maxSpeed, particleSeed-34);
-	vec2 initialVelocity = vec2(sin(initialDirection), cos(initialDirection)) * initialSpeed;
   vec2 linearAcceleration = randrange(minLinearAcceleration, maxLinearAcceleration, particleSeed+21);
+  float linearDamping = randrange(minLinearDamping, maxLinearDamping, particleSeed+3);
+  position.xy = origin + randrange(-areaSpread, areaSpread, particleSeed-2345);
+
+  vec2 initialVelocity = vec2(sin(initialDirection), cos(initialDirection)) * initialSpeed;
   vec2 velocity = initialVelocity + livedfor * linearAcceleration;
 
-  position.xy = origin + randrange(-areaSpread, areaSpread, particleSeed-2345);
-  position.xy += initialVelocity * livedfor + 0.5 * linearAcceleration * pow(livedfor, 2);
+  if (linearDamping == 0)
+  {
+    position.xy += initialVelocity * livedfor + 0.5 * linearAcceleration * pow(livedfor, 2);
+  } else {
+    position.xy += + linearAcceleration / linearDamping * livedfor + (linearAcceleration
+      / linearDamping - initialVelocity) / linearDamping * (exp(-linearDamping * livedfor) - 1);
+  }
+  //All credit goes to pfirsich for this magic.
 
   float angle = randrange(minStartAngle, maxStartAngle, particleSeed+29);
   float rotationSpeed = randrange(minRotationSpeed, maxRotationSpeed, particleSeed+38);
@@ -112,14 +124,14 @@ local party = setmetatable({}, {
     local buffer = {}
 
     for i = 1, bufferSize * 3 do
-      buffer[i] = {0, 0}
+      buffer[i] = {i-1, 0}
     end
 
     self.mesh = love.graphics.newMesh({
       {"VertexPosition", "float", 2}
     }, buffer, "triangles", "static")
 
-    self.shader = love.graphics.newShader(shaderstring)
+    self.shader = love.graphics.newShader("custom.frag", "custom.vert")
     self.time = 0
 
     return self
@@ -208,18 +220,18 @@ end
 -- @tparam number direction spawn direction (radians)
 -- @return system edited system
 function party:setDirection(direction)
-	assertIsNumber(direction, "direction")
-	self.shader:send("direction", direction)
-	return self
+  assertIsNumber(direction, "direction")
+  self.shader:send("direction", direction)
+  return self
 end
 
 --- Sets the spawn direction spread
 -- @tparam number spread direction spread (radians)
 -- @return system edited system
 function party:setSpread(spread)
-	assertIsNumber(spread, "spread")
-	self.shader:send("spread", spread)
-	return self
+  assertIsNumber(spread, "spread")
+  self.shader:send("spread", spread)
+  return self
 end
 
 --- Sets the minimum linear acceleration.
@@ -258,6 +270,35 @@ function party:setLinearAcceleration(minx, miny, maxx, maxy)
   assertIsNumber(maxy, "max y")
   self.shader:send("minLinearAcceleration", {minx, miny})
   self.shader:send("maxLinearAcceleration", {maxx, maxy})
+  return self
+end
+
+--- Sets minimum linear damping
+-- @tparam number damping minimum linear damping
+-- @return system edited system
+function party:setMinLinearDamping(damping)
+  assertIsNumber(damping, "damping")
+  self.shader:send("minLinearDamping", damping)
+  return self
+end
+
+--- Sets maximum linear damping
+-- @tparam number damping maximum linear damping
+-- @return system edited system
+function party:setMaxLinearDamping(damping)
+  assertIsNumber(damping, "damping")
+  self.shader:send("maxLinearDamping", damping)
+  return self
+end
+
+--- Sets minimum and maximum linear damping
+-- @tparam number damping minimum linear damping
+-- @return system edited system
+function party:setMinLinearDamping(mindamping, maxdamping)
+  assertIsNumber(mindamping, "min damping")
+  assertIsNumber(maxdamping, "max damping")
+  self.shader:send("minLinearDamping", mindamping)
+  self.shader:send("maxLinearDamping", maxdamping)
   return self
 end
 
@@ -389,9 +430,9 @@ end
 -- @tparam number time time
 -- @return system edited system
 function party:setTime(time)
-	assertIsNumber(time, "time")
-	self.time = time
-	return self
+  assertIsNumber(time, "time")
+  self.time = time
+  return self
 end
 
 return party
