@@ -67,16 +67,16 @@ vec4 position(mat4 transform, vec4 position)
 
   float particleSeed = rand(particleIndex);
 
-  float lifetime = randrange(minLifetime, maxLifetime, particleSeed+567);
+  float lifetime = randrange(minLifetime, maxLifetime, particleSeed+56.0f);
 
   float livedfor = mod(time + particleSeed * lifetime, lifetime);
   float progress = livedfor / lifetime;
 
-  float initialDirection = direction + randrange(0, spread, particleSeed-45);
+  float initialDirection = direction + randrange(0, spread, particleSeed-45.0f);
   float initialSpeed = randrange(minSpeed, maxSpeed, particleSeed-34);
-  vec2 linearAcceleration = randrange(minLinearAcceleration, maxLinearAcceleration, particleSeed+21);
-  float linearDamping = randrange(minLinearDamping, maxLinearDamping, particleSeed+3);
-  position.xy = origin + randrange(-areaSpread, areaSpread, particleSeed-2345);
+  vec2 linearAcceleration = randrange(minLinearAcceleration, maxLinearAcceleration, particleSeed+21.0f);
+  float linearDamping = randrange(minLinearDamping, maxLinearDamping, particleSeed+3.0f);
+  position.xy = origin + randrange(-areaSpread, areaSpread, particleSeed-23.0f);
 
   vec2 initialVelocity = vec2(sin(initialDirection), cos(initialDirection)) * initialSpeed;
   vec2 velocity = initialVelocity + livedfor * linearAcceleration;
@@ -90,12 +90,12 @@ vec4 position(mat4 transform, vec4 position)
   }
   //All credit goes to pfirsich for this magic.
 
-  float angle = randrange(minStartAngle, maxStartAngle, particleSeed+29);
-  float rotationSpeed = randrange(minRotationSpeed, maxRotationSpeed, particleSeed+38);
+  float angle = randrange(minStartAngle, maxStartAngle, particleSeed+29.0f);
+  float rotationSpeed = randrange(minRotationSpeed, maxRotationSpeed, particleSeed+38.0f);
   angle += rotationSpeed * livedfor;
   angle += deg120 * triangleIndex;
 
-  float radius = randrange(minRadius, maxRadius, particleSeed-15);
+  float radius = randrange(minRadius, maxRadius, particleSeed-15.0f);
 
   position.x += cos(angle) * radius;
   position.y += sin(angle) * radius;
