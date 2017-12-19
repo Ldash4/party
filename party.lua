@@ -101,7 +101,7 @@ in vec4 vertexColor;
 
 vec4 effect(vec4 col, sampler2D tex, vec2 tc, vec2 sc)
 {
-  return vertexColor;
+  return vertexColor * col;
 }
 
 #endif
