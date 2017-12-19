@@ -131,7 +131,7 @@ local party = setmetatable({}, {
       {"VertexPosition", "float", 2}
     }, buffer, "triangles", "static")
 
-    self.shader = love.graphics.newShader("custom.frag", "custom.vert")
+    self.shader = love.graphics.newShader(shaderstring)
     self.time = 0
 
     return self
