@@ -304,6 +304,36 @@ function party:setLinearDamping(mindamping, maxdamping)
   return self
 end
 
+--- Sets the minimum speed
+-- @tparam number speed minimum speed
+-- @return system edited system
+function party:setMinSpeed(speed)
+	assertIsNumber(speed, "speed")
+	self.shader:send("minSpeed", speed)
+	return self
+end
+
+--- Sets the maximum speed
+-- @tparam number speed maximum speed
+-- @return system edited system
+function party:setMaxSpeed(speed)
+	assertIsNumber(speed, "speed")
+	self.shader:send("maxSpeed", speed)
+	return self
+end
+
+--- Sets the minimum speed
+-- @tparam number speed minimum speed
+-- @tparam[opt] number speed maximum speed
+-- @return system edited system
+function party:setSpeed(minspeed, maxspeed)
+	assertIsNumber(minspeed, "minimum speed")
+	assertIsNumber(maxspeed, "maximum speed")
+	self.shader:send("minSpeed", minspeed)
+	self.shader:send("maxSpeed", maxspeed)
+	return self
+end
+
 --- Sets minimum spawn angle.
 -- @tparam number angle minimum starting angle
 -- @return system edited system
